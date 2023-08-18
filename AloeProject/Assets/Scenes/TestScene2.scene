@@ -1,0 +1,62 @@
+Scene: Untitled
+Entities:
+  - Entity: 462717361539919147
+    NameComponent:
+      Name: Camera
+    TransformComponent:
+      Position: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Main Camera: true
+      Camera Type: 0
+      Position: [0.100000001, 0, 2.70000005]
+      Up: [0, 1, 0]
+      Front: [0, 0, -1]
+      Width: 1920
+      Height: 1080
+      FOV: 90
+      Left: 0
+      Right: 0
+      Bottom: 0
+      Top: 0
+      Near Plane: 0.100000001
+      Far Plane: 1000
+  - Entity: 15860740900350251765
+    NameComponent:
+      Name: Cube 3
+    TransformComponent:
+      Position: [0.899999976, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteComponent:
+      Texture UUID: 4126165957938587749
+    InputComponent:
+      {}
+  - Entity: 15667366131032208423
+    NameComponent:
+      Name: Cube 1
+    TransformComponent:
+      Position: [-3.5, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteComponent:
+      Texture UUID: 4126165957938587749
+  - Entity: 8604232621869712730
+    NameComponent:
+      Name: Cube 2
+    TransformComponent:
+      Position: [-1.29999995, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteComponent:
+      Texture UUID: 4126165957938587749
+  - Entity: 672730184060594106
+    NameComponent:
+      Name: New Entity
+    TransformComponent:
+      Position: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteComponent:
+      Texture UUID: 0

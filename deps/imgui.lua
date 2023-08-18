@@ -1,16 +1,21 @@
 project "ImGui"
 	kind "StaticLib"
-	language "C"
+	language "C++"
 	architecture "x86_64"
 
 	targetdir "../bin/%{cfg.buildcfg}"
 	objdir "../obj/%{cfg.buildcfg}"
 	
-	includedirs { "imgui/", "imgui/examples/", "glad/include", "glfw/include/" }
+	includedirs { "imgui/", "imgui/examples/", "imgui/backends/", "imgui/misc/","glad/include", "glfw/include/" }
 
 	files
 	{
 		"imgui/*.cpp",
+		"imgui/backends/imgui_impl_glfw.cpp",
+		"imgui/backends/imgui_impl_opengl3.cpp",
+
+		"imgui/misc/cpp/imgui_stdlib.h",
+		"imgui/misc/cpp/imgui_stdlib.cpp",
 	}
 
 	defines 
@@ -22,7 +27,6 @@ project "ImGui"
 		pic "On"
 
 		systemversion "latest"
-		staticruntime "On"
 
 		defines
 		{
@@ -31,7 +35,6 @@ project "ImGui"
 
 	filter "system:windows"
 		systemversion "latest"
-		staticruntime "On"
 
 		defines 
 		{ 
