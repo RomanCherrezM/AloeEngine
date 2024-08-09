@@ -44,8 +44,6 @@ namespace Aloe {
 
             m_window.PollEvents();
 
-            // Process Input System here
-
             // Calculate deltaTime
             float time = Time::GetTime();
             float deltaTime = time - m_LastFrameTime;

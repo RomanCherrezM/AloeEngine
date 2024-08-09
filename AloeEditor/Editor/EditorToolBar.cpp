@@ -5,6 +5,8 @@
 #include <filesystem>
 
 #include <Core/AloeEngine.h>
+
+#include <Scene/SceneManager.h>
 #include <Application/Systems/ECSManager.h>
 
 namespace Aloe
@@ -26,7 +28,6 @@ namespace Aloe
 
     void EditorToolBar::Init()
     {
-        m_scriptSystem = Engine::Get()->GetApplicationSystems()->GetECSManager()->GetScriptSystem();
     }
 
     EPanelType EditorToolBar::GetPanelType()
@@ -36,6 +37,8 @@ namespace Aloe
 
     bool EditorToolBar::OnPanelUpdate(Entity entity)
     {
+        static SceneManager& sceneManager = SceneManager::Get();
+
         bool open = true;
 
         // Toolbar
@@ -60,17 +63,20 @@ namespace Aloe
         {
             ImGui::BringWindowToDisplayFront(ImGui::GetCurrentWindow());
 
-            ImTextureID playIcon = (ImTextureID)(m_scriptSystem->IsPlaying() ? m_stopIcon->GetRendererID() : m_playIcon->GetRendererID());
+            ImTextureID playIcon = (ImTextureID)(sceneManager.IsPlaying() ? m_stopIcon->GetRendererID() : m_playIcon->GetRendererID());
 
             if (ImGui::ImageButton(playIcon, ImVec2(iconSize, iconSize), ImVec2(0, 1), ImVec2(1, 0)))
             {
-                if (m_scriptSystem->IsPlaying())
+                if (sceneManager.IsPlaying())
                 {
-                    m_scriptSystem->StopPlaying();
+                    sceneManager.StopPlaying();
+                    Engine::Get()->GetApplicationSystems()->GetECSManager()->GetPhysics2DSystem()->OnRuntimeStop();
+                    
                 }
                 else
                 {
-                    m_scriptSystem->StartPlaying();
+                    sceneManager.StartPlaying();
+                    Engine::Get()->GetApplicationSystems()->GetECSManager()->GetPhysics2DSystem()->OnRuntimeStart();
                 }
             }
 
@@ -78,7 +84,7 @@ namespace Aloe
 
             if (ImGui::ImageButton((ImTextureID)m_pauseIcon->GetRendererID(), ImVec2(iconSize, iconSize), ImVec2(0, 1), ImVec2(1, 0)))
             {
-                m_scriptSystem->PausePlaying();
+                sceneManager.PausePlaying();
             }
         }
         ImGui::End();

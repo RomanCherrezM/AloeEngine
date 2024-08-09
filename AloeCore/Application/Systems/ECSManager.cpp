@@ -19,12 +19,14 @@ namespace Aloe {
         m_renderMeshSystem = std::make_shared<RenderMeshSystem>();
         m_renderSpriteSystem = std::make_shared<RenderSpriteSystem>();
         m_renderCameraSystem = std::make_shared<RenderCameraSystem>();
+        m_physics2DSystem = std::make_shared<Physics2DSystem>();
 
         m_inputSystem->Init();
         m_scriptSystem->Init();
         m_renderMeshSystem->Init();
         m_renderSpriteSystem->Init();
         m_renderCameraSystem->Init();
+        m_physics2DSystem->Init();
 
         m_renderCameraSystem->m_meshRenderSystem = m_renderMeshSystem;
         m_renderCameraSystem->m_spriteRenderSystem = m_renderSpriteSystem;
@@ -39,6 +41,8 @@ namespace Aloe {
 
     void ECSManager::ExecutePostUpdateSystems()
     {
+        m_physics2DSystem->Execute();
+
         m_renderCameraSystem->Execute();
     }
 }

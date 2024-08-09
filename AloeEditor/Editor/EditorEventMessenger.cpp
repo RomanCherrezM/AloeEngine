@@ -30,11 +30,16 @@ namespace Aloe
         }
     }
 
-    void EditorEventMessenger::OnEvent(Aloe::EditorEvent& event)
+    void EditorEventMessenger::SendEvent(Aloe::EditorEvent& event)
     {
         for each (IEditorEventListener * listener in m_listeners)
         {
             listener->OnEvent(event);
         }
+    }
+
+    void EditorEventMessenger::OnEvent(Aloe::EditorEvent& event)
+    {
+        // TODO: Assert unused class
     }
 }

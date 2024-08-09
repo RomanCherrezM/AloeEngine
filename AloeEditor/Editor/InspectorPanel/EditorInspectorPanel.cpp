@@ -102,6 +102,34 @@ namespace Aloe {
 
     }
 
+    void DrawRigidbody2DComponent(Entity entity)
+    {
+        Rigidbody2DComponent& component = entity.GetComponent<Rigidbody2DComponent>();
+
+        const char* bodyTypes[] = { "Static", "Kinematic", "Dynamic" };
+        int currentItem = (int)component.m_type;
+
+        if (ImGui::Combo("Object Type", &currentItem, bodyTypes, IM_ARRAYSIZE(bodyTypes)))
+        {
+            Rigidbody2DComponent::BodyType selectedType = static_cast<Rigidbody2DComponent::BodyType>(currentItem);
+
+            component.m_type = selectedType;
+        }
+
+        ImGui::Checkbox("Fixed Rotatiton", &component.m_fixedRotation);
+
+    }
+
+    void DrawSquareCollider2DComponent(Entity entity)
+    {
+        SquareCollider2DComponent& component = entity.GetComponent<SquareCollider2DComponent>();
+
+        DrawFloatEditor("Density", component.m_density);
+        DrawFloatEditor("Friction", component.m_friction);
+        DrawFloatEditor("Restitution", component.m_restitution);
+        DrawFloatEditor("Restitution Threshold", component.m_restitutionThreshold);
+    }
+
     void DrawCameraComponent(Entity entity)
     {
         CameraComponent& component = entity.GetComponent<CameraComponent>();
@@ -114,9 +142,9 @@ namespace Aloe {
             engine->SetMainCamera(&component);
         }
 
-        Aloe::DrawVec3Editor("Position", component.m_cameraData.m_position);
-        Aloe::DrawVec3Editor("Up", component.m_cameraData.m_up);
-        Aloe::DrawVec3Editor("Front", component.m_cameraData.m_front);
+        DrawVec3Editor("Position", component.m_cameraData.m_position);
+        DrawVec3Editor("Up", component.m_cameraData.m_up);
+        DrawVec3Editor("Front", component.m_cameraData.m_front);
 
         DrawExtendedSliderEditor("Field of View", component.m_cameraData.m_fov, 0.0f, 180.0f);
         DrawFloatEditor("Near Plane", component.m_cameraData.m_nearPlane);
@@ -207,6 +235,8 @@ namespace Aloe {
             AddComponentEntry<MeshRenderer>(m_selectedEntity, "Mesh Renderer Component");
             AddComponentEntry<SpriteComponent>(m_selectedEntity, "Sprite Component");
             AddComponentEntry<CameraComponent>(m_selectedEntity, "Camera Component");
+            AddComponentEntry<Rigidbody2DComponent>(m_selectedEntity, "Rigidbody2D Component");
+            AddComponentEntry<SquareCollider2DComponent>(m_selectedEntity, "SquareCollider2D Component");
 
             for each (auto scriptName in m_scriptSystem->GetScriptList())
             {
@@ -243,7 +273,7 @@ namespace Aloe {
         bool open = true;
         if (ImGui::Begin("Component Settings", &open))
         {
-            if (m_selectedEntity)
+            if (m_selectedEntity.IsValid())
             {
                 DrawComponent<IDComponent>(m_selectedEntity, "ID Component", DrawIDComponent);
                 DrawComponent<NameComponent>(m_selectedEntity, "Name Component", DrawNameComponent);
@@ -254,6 +284,8 @@ namespace Aloe {
                 DrawComponent<MeshRenderer>(m_selectedEntity, "Mesh Renderer Component", DrawMeshRenderer);
                 DrawComponent<SpriteComponent>(m_selectedEntity, "Sprite Component", DrawSpriteComponent);
                 DrawComponent<CameraComponent>(m_selectedEntity, "Camera Component", DrawCameraComponent);
+                DrawComponent<Rigidbody2DComponent>(m_selectedEntity, "Rigidbody2D Component", DrawRigidbody2DComponent);
+                DrawComponent<SquareCollider2DComponent>(m_selectedEntity, "SquareCollider2D Component", DrawSquareCollider2DComponent);
 
                 for each (auto scriptName in m_scriptSystem->GetScriptList())
                 {

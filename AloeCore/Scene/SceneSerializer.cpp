@@ -36,6 +36,35 @@ namespace YAML
         }
     };
 
+    template<>
+    struct convert<glm::vec2>
+    {
+        static Node encode(const glm::vec2& vec)
+        {
+            Node node;
+            node.push_back(vec.x);
+            node.push_back(vec.y);
+            return node;
+        }
+
+        static bool decode(const Node& node, glm::vec2& vec)
+        {
+            if (!node.IsSequence() || node.size() != 2)
+                return false;
+
+            vec.x = node[0].as<float>();
+            vec.y = node[1].as<float>();
+            return true;
+        }
+    };
+
+    Emitter& operator<<(Emitter& out, const glm::vec2& vec)
+    {
+        out << Flow;
+        out << BeginSeq << vec.x << vec.y << EndSeq;
+        return out;
+    }
+
     Emitter& operator<<(Emitter& out, const glm::vec3& vec)
     {
         out << Flow;
@@ -154,6 +183,7 @@ namespace Aloe {
             auto component = entity.GetComponent<SpriteComponent>();
 
             out << YAML::Key << "Texture UUID" << YAML::Value << component.m_textureUUID;
+            out << YAML::Key << "Color" << YAML::Value << component.m_color;
 
             out << YAML::EndMap; // SpriteComponent
         }
@@ -166,6 +196,37 @@ namespace Aloe {
             InputComponent& component = entity.GetComponent<InputComponent>();
 
             out << YAML::EndMap; // Component
+        }
+
+        if (entity.HasComponent<Rigidbody2DComponent>())
+        {
+            out << YAML::Key << "Rigidbody2DComponent";
+            out << YAML::BeginMap; // Rigidbody2DComponent
+
+            Rigidbody2DComponent& component = entity.GetComponent<Rigidbody2DComponent>();
+
+            out << YAML::Key << "Body Type" << YAML::Value << (int)component.m_type;
+            out << YAML::Key << "Fixed Rotation" << YAML::Value << component.m_fixedRotation;
+
+            out << YAML::EndMap; // Rigidbody2DComponent
+        }
+
+        if (entity.HasComponent<SquareCollider2DComponent>())
+        {
+            out << YAML::Key << "SquareCollider2DComponent";
+            out << YAML::BeginMap; // SquareCollider2DComponent
+
+            SquareCollider2DComponent& component = entity.GetComponent<SquareCollider2DComponent>();
+
+            out << YAML::Key << "Offset" << YAML::Value << component.m_offset;
+            out << YAML::Key << "Size" << YAML::Value << component.m_size;
+
+            out << YAML::Key << "Density" << YAML::Value << component.m_density;
+            out << YAML::Key << "Friction" << YAML::Value << component.m_friction;
+            out << YAML::Key << "Restitution" << YAML::Value << component.m_restitution;
+            out << YAML::Key << "Restitution Threshold" << YAML::Value << component.m_restitutionThreshold;
+
+            out << YAML::EndMap; // SquareCollider2DComponent
         }
 
         //if (entity.HasComponent<Component>())
@@ -245,6 +306,7 @@ namespace Aloe {
                     SpriteComponent& spriteComponent = entity.AddComponent<SpriteComponent>();
 
                     spriteComponent.m_textureUUID = spriteComponentNode["Texture UUID"].as<uint64_t>();
+                    spriteComponent.m_color = spriteComponentNode["Color"].as<glm::vec3>();
                 }
 
                 auto inputComponentNode = entityNode["InputComponent"];
@@ -279,6 +341,31 @@ namespace Aloe {
                         Engine::Get()->SetMainCamera(&entity.GetComponent<CameraComponent>());
                     }
                 }
+
+                auto rigidBody2DComponentNode = entityNode["Rigidbody2DComponent"];
+                if (rigidBody2DComponentNode)
+                {
+                    Rigidbody2DComponent& component = entity.AddComponent<Rigidbody2DComponent>();
+
+                    component.m_type = (Rigidbody2DComponent::BodyType)rigidBody2DComponentNode["Body Type"].as<int>();
+                    component.m_fixedRotation = rigidBody2DComponentNode["Fixed Rotation"].as<bool>();
+
+                }
+
+                auto squareCollider2DComponentNode = entityNode["SquareCollider2DComponent"];
+                if (squareCollider2DComponentNode)
+                {
+                    SquareCollider2DComponent& component = entity.AddComponent<SquareCollider2DComponent>();
+
+                    component.m_offset = squareCollider2DComponentNode["Offset"].as<glm::vec2>();
+                    component.m_size = squareCollider2DComponentNode["Size"].as<glm::vec2>();
+
+                    component.m_density = squareCollider2DComponentNode["Density"].as<float>();
+                    component.m_friction = squareCollider2DComponentNode["Friction"].as<float>();
+                    component.m_restitution = squareCollider2DComponentNode["Restitution"].as<float>();
+                    component.m_restitutionThreshold = squareCollider2DComponentNode["Restitution Threshold"].as<float>();
+                }
+
             }
         }
 

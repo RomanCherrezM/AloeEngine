@@ -26,6 +26,6 @@ namespace Aloe
         std::shared_ptr<Texture> m_pauseIcon;
         std::shared_ptr<Texture> m_stopIcon;
 
-        class ScriptSystem* m_scriptSystem = nullptr;
+        class SceneManager* m_sceneManager;
     };
 }

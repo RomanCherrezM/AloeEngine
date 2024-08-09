@@ -1,4 +1,8 @@
 #include "SceneManager.h"
+#include "SceneManager.h"
+#include "SceneManager.h"
+#include "SceneManager.h"
+#include "SceneManager.h"
 
 #include <Scene/SceneSerializer.h>
 
@@ -28,5 +32,27 @@ namespace Aloe
     std::shared_ptr<Scene> SceneManager::GetCurrentScene()
     {
         return m_currentScene;
+    }
+
+    bool Aloe::SceneManager::IsPlaying()
+    {
+        return m_isPlaying;
+    }
+
+    void Aloe::SceneManager::StartPlaying()
+    {
+        // Copy the current scene into the runtime scene and set playing to true
+        m_isPlaying = true;
+
+    }
+
+    void Aloe::SceneManager::StopPlaying()
+    {
+        m_isPlaying = false;
+    }
+
+    void Aloe::SceneManager::PausePlaying()
+    {
+        // TODO    
     }
 }

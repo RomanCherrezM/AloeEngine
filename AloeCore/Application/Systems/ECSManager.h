@@ -5,6 +5,7 @@
 #include <ECS/Systems/RenderSystem.h>
 #include <ECS/Systems/InputSystem.h>
 #include <ECS/Systems/ScriptSystem.h>
+#include <ECS/Systems/Physics2DSystem.h>
 
 namespace Aloe {
 
@@ -23,6 +24,7 @@ namespace Aloe {
         RenderMeshSystem* GetRenderMeshSystem() { return m_renderMeshSystem.get(); }
         RenderSpriteSystem* GetSpriteRenderSystem() { return m_renderSpriteSystem.get(); }
         ScriptSystem* GetScriptSystem() { return m_scriptSystem.get(); }
+        Physics2DSystem* GetPhysics2DSystem() { return m_physics2DSystem.get(); }
 
     private:
         // Current running ECS
@@ -40,6 +42,7 @@ namespace Aloe {
         std::shared_ptr<RenderMeshSystem> m_renderMeshSystem;
         std::shared_ptr<RenderCameraSystem> m_renderCameraSystem;
         std::shared_ptr<RenderSpriteSystem> m_renderSpriteSystem;
+        std::shared_ptr<Physics2DSystem> m_physics2DSystem;
 
     };
 

@@ -43,9 +43,11 @@ project "ImGui"
 		}
 
 	filter "configurations:Debug"
+		defines { "DEBUG" }
 		runtime "Debug"
 		symbols "on"
 
 	filter "configurations:Release"
+		defines { "NDEBUG" }
 		runtime "Release"
 		optimize "on"

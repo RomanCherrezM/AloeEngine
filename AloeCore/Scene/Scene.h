@@ -48,7 +48,6 @@ namespace Aloe
 
     private:
         entt::registry m_registry;
-
         std::unordered_map<entt::entity, Entity> m_entityMap;
 
         friend class Entity;

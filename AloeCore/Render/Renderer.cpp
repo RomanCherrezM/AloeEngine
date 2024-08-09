@@ -44,10 +44,10 @@ namespace Aloe {
             m_data->m_spriteDefaultShader = Shader::Create(spriteVertexPath, spriteFragmentPath);
 
             float spriteVertices[] = {
-                 1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
-                 1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-                -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-                -1.0f,  1.0f, 0.0f, 0.0f, 1.0f
+                 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+                 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+                -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+                -0.5f,  0.5f, 0.0f, 0.0f, 1.0f
             };
 
             std::shared_ptr<VertexBuffer> spriteVB = VertexBuffer::Create(spriteVertices, sizeof(spriteVertices));

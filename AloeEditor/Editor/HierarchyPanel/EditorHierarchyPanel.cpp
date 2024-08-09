@@ -21,6 +21,17 @@ namespace Aloe {
         entity.AddComponent<TransformComponent>();
     }
 
+    void CreateSquareCollision(std::shared_ptr<Scene> scene)
+    {
+        Entity entity = scene->CreateEntity("Square Collision");
+
+        entity.AddComponent<NameComponent>();
+        entity.AddComponent<TransformComponent>().m_position = glm::vec3(rand()%30 - 15, 10.0f, 0.0f);
+        entity.AddComponent<SpriteComponent>();
+        entity.AddComponent<Rigidbody2DComponent>().m_type = Rigidbody2DComponent::BodyType::Dynamic;
+        entity.AddComponent<SquareCollider2DComponent>().m_restitution = 1.0f;
+    }
+
     EditorHierarchyPanel::EditorHierarchyPanel(EditorEventMessenger* eventRef)
     {
         m_eventMessenger = eventRef;
@@ -54,6 +65,11 @@ namespace Aloe {
             if (ImGui::Button("Create Entity"))
             {
                 CreateEntity(SceneManager::Get().GetCurrentScene());
+            }
+
+            if (ImGui::Button("Create Square Collision"))
+            {
+                CreateSquareCollision(SceneManager::Get().GetCurrentScene());
             }
 
             ImGui::EndPopup();
@@ -128,7 +144,7 @@ namespace Aloe {
         if (ImGui::IsItemClicked())
         {
             HierarchyEntitySelectedEvent editorEvent(entity);
-            m_eventMessenger->OnEvent(editorEvent);
+            m_eventMessenger->SendEvent(editorEvent);
         }
 
         HandleOnEntityDragAndDrop(entity);

@@ -44,6 +44,8 @@ namespace Aloe
 			m_scene->m_registry.remove<T>(m_handler);
 		}
 
+		bool IsValid() { return m_handler != entt::null && m_scene != nullptr; }
+
 		operator bool() const { return m_handler != entt::null; }
 		operator entt::entity() const { return m_handler; }
 		operator uint32_t() const { return (uint32_t)m_handler; }

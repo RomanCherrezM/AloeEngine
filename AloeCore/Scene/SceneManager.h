@@ -14,10 +14,20 @@ namespace Aloe
         bool TryLoadScene(const std::string& filepath);
         std::shared_ptr<Scene> GetCurrentScene();
 
+        bool IsPlaying();
+
+        void StartPlaying();
+
+        void StopPlaying();
+
+        void PausePlaying();
+
     private:
         SceneManager() {}
 
         // Current scene context
         std::shared_ptr<Scene> m_currentScene;
+
+        bool m_isPlaying = false;
     };
 }

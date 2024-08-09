@@ -9,3 +9,5 @@
 #include <ECS/Components/MeshRenderer.h>
 #include <ECS/Components/SpriteComponent.h>
 #include <ECS/Components/CameraComponent.h>
+#include <ECS/Components/SquareCollider2DComponent.h>
+#include <ECS/Components/Rigidbody2DComponent.h>

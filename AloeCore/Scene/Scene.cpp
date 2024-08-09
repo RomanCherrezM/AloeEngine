@@ -1,4 +1,6 @@
 #include "Scene.h"
+#include "Scene.h"
+#include "Scene.h"
 
 #include "ECS/Components/Components.h"
 #include <Scene/Entity.h>

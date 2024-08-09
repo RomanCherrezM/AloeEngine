@@ -31,6 +31,9 @@ namespace Aloe {
         void ClosePanel(EPanelType type);
         bool PanelExists(EPanelType type, int* foundIndex = nullptr);
 
+        // To receive events from the panels
+        void OnEvent(Aloe::EditorEvent& event) override;
+
         std::vector<EditorPanelBase*> m_panels;
 
         WindowHandler* m_window;

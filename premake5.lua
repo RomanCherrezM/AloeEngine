@@ -10,11 +10,13 @@ workspace "AloeEngine"
     filter "configurations:Debug"
         defines { "DEBUG", "DEBUG_SHADER" }
         symbols "On"
+        runtime "Debug"
 
     filter "configurations:Release"
         defines { "RELEASE", "NDEBUG" }
         optimize "Speed"
         flags { "LinkTimeOptimization" }
+        runtime "Release"
 
 project "AloeCore"
 	kind "StaticLib"
@@ -22,11 +24,11 @@ project "AloeCore"
     cppdialect "C++17"
 	architecture "x86_64"
     
-    includedirs { "AloeCore/", "deps/stb/", "deps/glad/include/", "deps/glfw/include/", "deps/glm/", "deps/imgui/", "deps/imgui/examples", "deps/yaml/include/", "deps/entt/"}
+    includedirs { "AloeCore/", "deps/stb/", "deps/glad/include/", "deps/glfw/include/", "deps/glm/", "deps/imgui/", "deps/imgui/examples", "deps/yaml/include/", "deps/entt/",  "deps/box2d/include/"}
     
     files { "AloeCore/**.cpp", "AloeCore/**.h" }
 
-    links { "GLFW", "GLM", "GLAD", "ImGui", "YAML" }
+    links { "GLFW", "GLM", "GLAD", "ImGui", "YAML", "BOX2D" }
 
     filter "system:linux"
         links { "dl", "pthread" }
@@ -52,7 +54,7 @@ project "AloeEditor"
 		"AloeCore/",
         "AloeEditor/",
 
-        "deps/stb/", "deps/glad/include/", "deps/glfw/include/", "deps/glm/", "deps/imgui/", "deps/yaml/include/",  "deps/entt/"
+        "deps/stb/", "deps/glad/include/", "deps/glfw/include/", "deps/glm/", "deps/imgui/", "deps/yaml/include/",  "deps/entt/" , "deps/box2d/include/"
 	}
 
 	files 
@@ -121,3 +123,4 @@ group "Dependencies"
     include "deps/imgui.lua"
     include "deps/yaml.lua"
     include "deps/entt.lua"
+    include "deps/box2d.lua"

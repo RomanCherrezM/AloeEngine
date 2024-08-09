@@ -19,6 +19,9 @@ namespace Aloe {
         void Init() override;
         void Execute() override;
     
+        void OnRuntimeStart() override {}
+        void OnRuntimeStop() override {}
+
         void StartPlaying();
         void PausePlaying();
         void StopPlaying();

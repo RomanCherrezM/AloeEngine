@@ -8,6 +8,9 @@ namespace Aloe
 {
     enum EEditorEventType
     {
+        PlayButtonPressed,
+
+
         HierarchyEntitySelected,
         SceneChanged,
     };
@@ -72,6 +75,9 @@ namespace Aloe
         void AddListener(IEditorEventListener* listener);
         void RemoveListener(IEditorEventListener* listener);
 
+        // Only to propagate events
+        void SendEvent(EditorEvent& event);
+        // Only to listen to events
         void OnEvent(EditorEvent& event);
 
     private:

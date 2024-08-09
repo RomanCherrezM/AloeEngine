@@ -43,6 +43,9 @@ namespace Aloe
         void Init() override;
         void Execute() override;
 
+        void OnRuntimeStart() override {}
+        void OnRuntimeStop() override {}
+
         void OnEvent(Event& event) override;
 
     private:

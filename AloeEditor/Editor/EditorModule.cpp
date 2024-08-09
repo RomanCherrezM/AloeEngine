@@ -265,4 +265,9 @@ namespace Aloe {
         }
         return false;
     }
+
+    void EditorModule::OnEvent(Aloe::EditorEvent& event)
+    {
+
+    }
 }
