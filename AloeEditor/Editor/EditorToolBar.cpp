@@ -70,12 +70,14 @@ namespace Aloe
                 if (sceneManager.IsPlaying())
                 {
                     sceneManager.StopPlaying();
+                    // TODO: Move this to somewhere else
                     Engine::Get()->GetApplicationSystems()->GetECSManager()->GetPhysics2DSystem()->OnRuntimeStop();
                     
                 }
                 else
                 {
                     sceneManager.StartPlaying();
+                    // TODO: Move this to somewhere else
                     Engine::Get()->GetApplicationSystems()->GetECSManager()->GetPhysics2DSystem()->OnRuntimeStart();
                 }
             }

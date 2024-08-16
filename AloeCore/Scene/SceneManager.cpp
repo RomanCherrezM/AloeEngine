@@ -22,7 +22,8 @@ namespace Aloe
         SceneSerializer sceneSerializer(newScene);
         if (sceneSerializer.Deserialize(filepath))
         {
-            m_currentScene = newScene;
+            m_openScene = newScene;
+            m_activeScene = m_openScene;
             return true;
         }
 
@@ -31,7 +32,7 @@ namespace Aloe
 
     std::shared_ptr<Scene> SceneManager::GetCurrentScene()
     {
-        return m_currentScene;
+        return m_activeScene;
     }
 
     bool Aloe::SceneManager::IsPlaying()
@@ -44,11 +45,15 @@ namespace Aloe
         // Copy the current scene into the runtime scene and set playing to true
         m_isPlaying = true;
 
+        m_activeScene = Scene::Copy(m_openScene); // Copy
     }
 
     void Aloe::SceneManager::StopPlaying()
     {
         m_isPlaying = false;
+
+        m_activeScene = nullptr;
+        m_activeScene = m_openScene;
     }
 
     void Aloe::SceneManager::PausePlaying()

@@ -25,8 +25,11 @@ namespace Aloe
     private:
         SceneManager() {}
 
-        // Current scene context
-        std::shared_ptr<Scene> m_currentScene;
+        // Current scene loaded from file
+        std::shared_ptr<Scene> m_openScene;
+
+        // The scene that needs to be modified
+        std::shared_ptr<Scene> m_activeScene;
 
         bool m_isPlaying = false;
     };

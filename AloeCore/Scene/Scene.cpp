@@ -1,6 +1,4 @@
 #include "Scene.h"
-#include "Scene.h"
-#include "Scene.h"
 
 #include "ECS/Components/Components.h"
 #include <Scene/Entity.h>
@@ -9,6 +7,40 @@ namespace Aloe
 {
     Scene::Scene()
     {
+    }
+
+    template<typename Component>
+    static void CopyComponent(Entity& src, Entity& dst)
+    {
+        if (src.HasComponent<Component>())
+        {            
+            dst.ReplaceComponent<Component>(src.GetComponent<Component>());
+        }
+    }
+
+    std::shared_ptr<Scene> Scene::Copy(std::shared_ptr<Scene> other)
+    {
+        std::shared_ptr<Scene> newScene = std::make_shared<Scene>();
+
+        auto entities = other->GetAllEntities();
+
+        for each (auto otherEntity in entities)
+        {
+            UUID uuid = otherEntity.GetComponent<IDComponent>().m_UUID;
+            std::string name = otherEntity.GetComponent<NameComponent>().m_name;
+            Entity newEntity = newScene->CreateEntityByUUID(uuid, name);
+
+            CopyComponent<TransformComponent>(otherEntity, newEntity);
+            CopyComponent<InputComponent>(otherEntity, newEntity);
+            CopyComponent<MeshComponent>(otherEntity, newEntity);
+            CopyComponent<MeshRenderer>(otherEntity, newEntity);
+            CopyComponent<SpriteComponent>(otherEntity, newEntity);
+            CopyComponent<CameraComponent>(otherEntity, newEntity);
+            CopyComponent<SquareCollider2DComponent>(otherEntity, newEntity);
+            CopyComponent<Rigidbody2DComponent>(otherEntity, newEntity);
+        }
+
+        return newScene;
     }
 
     Entity Scene::CreateEntityByUUID(const UUID& uuid, const std::string& name)

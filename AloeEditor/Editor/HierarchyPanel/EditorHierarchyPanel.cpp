@@ -130,16 +130,33 @@ namespace Aloe {
         HandleDetachmentLine(entity);
 
         NameComponent& nc = entity.GetComponent<NameComponent>();
+        bool bHierarchy = entity.HasComponent<HierarchyComponent>();
 
-        ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_SpanFullWidth;
+        ImGuiTreeNodeFlags treeNodeFlags =
+            ImGuiTreeNodeFlags_Framed |
+            ImGuiTreeNodeFlags_SpanAvailWidth |
+            ImGuiTreeNodeFlags_AllowItemOverlap |
+            ImGuiTreeNodeFlags_OpenOnDoubleClick |
+            ImGuiTreeNodeFlags_OpenOnArrow |
+            ImGuiTreeNodeFlags_FramePadding;
 
-        if (entity.HasComponent<HierarchyComponent>())
+        if (m_selectedEntity == entity)
         {
-            HierarchyComponent& hc = entity.GetComponent<HierarchyComponent>();
-            if (hc.HasChildren()) flags |= ImGuiTreeNodeFlags_Leaf;
+            treeNodeFlags |= ImGuiTreeNodeFlags_Selected;
         }
 
-        bool open = ImGui::TreeNodeEx(nc.m_name.c_str(), flags);
+        if (bHierarchy)
+        {
+            HierarchyComponent& hc = entity.GetComponent<HierarchyComponent>();
+            treeNodeFlags |= hc.HasChildren() ? ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Bullet;
+        }
+        else
+        {
+            treeNodeFlags |= ImGuiTreeNodeFlags_Bullet;
+        }
+
+        bool open = true;
+        ImGui::CollapsingHeader(nc.m_name.c_str(), &open, treeNodeFlags);
 
         if (ImGui::IsItemClicked())
         {
@@ -157,8 +174,10 @@ namespace Aloe {
                     HandleEntityChildren(itComponent->m_entity);
                 }
             }
-
-            ImGui::TreePop();
+        }
+        else
+        {
+            SceneManager::Get().GetCurrentScene()->DestroyEntity(entity);
         }
     }
 

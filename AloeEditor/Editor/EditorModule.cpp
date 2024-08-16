@@ -77,7 +77,10 @@ namespace Aloe {
         {
             m_scene = scene;
             SceneChangedEvent sceneChangedEvent(m_scene);
-            OnEvent(sceneChangedEvent);
+            for each (auto listener in m_panels)
+            {
+                listener->OnEvent(sceneChangedEvent);
+            }
         }
 
         MainMenuBarUpdate();

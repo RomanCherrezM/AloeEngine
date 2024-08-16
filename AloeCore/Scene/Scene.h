@@ -16,6 +16,7 @@ namespace Aloe
     {
     public:
         Scene();
+        static std::shared_ptr<Scene> Copy(std::shared_ptr<Scene> other);
 
         Entity CreateEntityByUUID(const UUID& uuid, const std::string& name = std::string());
         Entity CreateEntity(const std::string& name);

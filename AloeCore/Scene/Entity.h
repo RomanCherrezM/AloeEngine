@@ -24,6 +24,13 @@ namespace Aloe
 			return component;
 		}
 
+		template<typename T, typename... Args>
+		T& ReplaceComponent(Args&&... args)
+		{
+			T& component = m_scene->m_registry.emplace_or_replace<T>(m_handler, std::forward<Args>(args)...);
+			return component;
+		}
+
 		template<typename T>
 		T& GetComponent()
 		{
