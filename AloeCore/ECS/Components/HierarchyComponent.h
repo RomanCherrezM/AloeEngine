@@ -1,71 +1,41 @@
 #pragma once
 
+#include "Component.h"
+
 #include <Scene/Entity.h>
 
 namespace Aloe
 {
-    struct HierarchyComponent
+    class HierarchyComponent : public Component
     {
-        Entity m_entity;
-        HierarchyComponent* m_parentComponent = nullptr;
-        std::list<HierarchyComponent*> m_childrenComponent;
+    public:
 
-        bool IsParentInHierarchy(HierarchyComponent* parentComponent)
-        {
-            HierarchyComponent* itComponent = m_parentComponent;
-            while (itComponent != nullptr)
-            {
-                if (itComponent == parentComponent)
-                {
-                    return true;
-                }
+        HierarchyComponent();
+        ~HierarchyComponent();
 
-                itComponent = itComponent->GetParent();
-            }
+        // Handles an attachment of parent child, checks for
+        // other existing attachments and undoes them, also
+        // checks for infinite loops in the attachment, etc...
+        void SetupAttachment(Entity entity);
+        
+        void RemoveAttachment(Entity entity);
 
-            return false;
-        }
+        void RemoveAllAttachments();
 
-        HierarchyComponent* GetParent()
-        {
-            return m_parentComponent;
-        }
+        Entity GetParent() const;
 
-        // Adds a new child to this component, removing it from previous parent
-        bool AddAttachment(HierarchyComponent* childComponent)
-        {
-            // Check if its already a child of this component
+        bool HasChildren() const;
 
-            // If not get its parent, if has parent, remove it from its children
-            HierarchyComponent* parentHC = childComponent->GetParent();
-            if (parentHC != nullptr)
-            {
-                parentHC->RemoveAttachment(childComponent);
-            }
+        bool IsRoot();
 
-            m_childrenComponent.push_back(childComponent);
-            childComponent->m_parentComponent = this;
+        std::list<Entity> GetChildren();
 
-            return true;
-        }
+    private:
 
-        bool RemoveAttachment(HierarchyComponent* childComponent)
-        {
-            // Find in the children and remove it
-            if (std::find(m_childrenComponent.begin(), m_childrenComponent.end(), childComponent) != std::end(m_childrenComponent))
-            {
-                childComponent->m_parentComponent = nullptr;
-                m_childrenComponent.remove(childComponent);
-                return true;
-            }
+        bool IsChild(Entity& entity);
 
-            return false;
-        }
-    
-        // Getters
-        bool HasChildren()
-        {
-            return m_childrenComponent.empty();
-        }
+        Entity m_parent;
+        std::list<Entity> m_children;
+
     };
 }

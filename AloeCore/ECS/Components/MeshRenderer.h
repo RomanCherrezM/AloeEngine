@@ -1,12 +1,14 @@
 #pragma once
 
+#include "Component.h"
+
 #include <Render/Texture.h>
 #include <Render/Shader.h>
 
 #include <Render/Renderer.h>
 namespace Aloe
 {
-    class MeshRenderer
+    class MeshRenderer : public Component
     {
     public:
         MeshRenderer()

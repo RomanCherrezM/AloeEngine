@@ -7,8 +7,8 @@
 
 namespace Aloe
 {
-    std::filesystem::path s_editorAssetPath = "../../AloeEditor/Assets/Content Browser/Files";
-    std::filesystem::path s_assetPath = "../../AloeProject/Assets";
+    std::filesystem::path s_editorAssetPath = "../AloeEditor/Assets/Content Browser/Files";
+    std::filesystem::path s_assetPath = "../AloeProject/Assets";
 
     std::unordered_map<std::string, EditorFileType> s_extensionFileMap;
     std::unordered_map<AssetType, EditorFileType> s_assetFileMap;

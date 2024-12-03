@@ -1,6 +1,6 @@
 workspace "AloeEngine"
 
-    location("build/temp")
+    location("build/")
 
     configurations { "Debug", "Release" }
     startproject "AloeGame"
@@ -24,11 +24,26 @@ project "AloeCore"
     cppdialect "C++17"
 	architecture "x86_64"
     
-    includedirs { "AloeCore/", "deps/stb/", "deps/glad/include/", "deps/glfw/include/", "deps/glm/", "deps/imgui/", "deps/imgui/examples", "deps/yaml/include/", "deps/entt/",  "deps/box2d/include/"}
+    filter "action:vs*"
+        buildoptions { "/utf-8" }
+
+    includedirs { 
+        "AloeCore/", 
+        "deps/stb/", 
+        "deps/glad/include/", 
+        "deps/glfw/include/", 
+        "deps/glm/", "deps/imgui/", 
+        "deps/imgui/examples", 
+        "deps/yaml/include/", 
+        "deps/entt/",  
+        "deps/box2d/include/",
+        "deps/spdlog/",
+        "deps/imguizmo/"
+    }
     
     files { "AloeCore/**.cpp", "AloeCore/**.h" }
 
-    links { "GLFW", "GLM", "GLAD", "ImGui", "YAML", "BOX2D" }
+    links { "GLFW", "GLM", "GLAD", "ImGui", "YAML", "BOX2D", "IMGUIZMO"}
 
     filter "system:linux"
         links { "dl", "pthread" }
@@ -54,7 +69,14 @@ project "AloeEditor"
 		"AloeCore/",
         "AloeEditor/",
 
-        "deps/stb/", "deps/glad/include/", "deps/glfw/include/", "deps/glm/", "deps/imgui/", "deps/yaml/include/",  "deps/entt/" , "deps/box2d/include/"
+        "deps/stb/", 
+        "deps/glad/include/", 
+        "deps/glfw/include/", 
+        "deps/glm/", "deps/imgui/", 
+        "deps/yaml/include/",  
+        "deps/entt/" , 
+        "deps/box2d/include/",
+        "deps/imguizmo/"
 	}
 
 	files 
@@ -91,8 +113,12 @@ project "AloeProject"
 		"AloeCore/",
 		"AloeProject/",
 
-        -- We may remove some of this as they shouldn't be used directly from the scripting module
-        "deps/stb/", "deps/glad/include/", "deps/glfw/include/", "deps/glm/", "deps/imgui/", "deps/yaml/include/",  "deps/entt/"
+        "deps/stb/", 
+        "deps/glad/include/", 
+        "deps/glfw/include/", 
+        "deps/glm/", "deps/imgui/", 
+        "deps/yaml/include/",  
+        "deps/entt/",
 	}
 
     files
@@ -124,3 +150,4 @@ group "Dependencies"
     include "deps/yaml.lua"
     include "deps/entt.lua"
     include "deps/box2d.lua"
+    include "deps/imguizmo.lua"

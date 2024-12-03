@@ -29,10 +29,10 @@ namespace Aloe {
 
         Renderer::Get()->Init();
 
-        AssetLibrary::Get()->InitCacheLibrary("../../AloeProject/Assets");
+        AssetLibrary::Get()->InitCacheLibrary("../AloeProject/Assets");
 
         // TODO: Get the initial scene from some project settings
-        SceneManager::Get().TryLoadScene("../../AloeProject/Assets/Scenes/TestScene.scene");
+        SceneManager::Get().TryLoadScene("../AloeProject/Assets/Scenes/TestScene.scene");
 
         m_editorModule = new EditorModule(&m_window);
         m_editorModule->Start();

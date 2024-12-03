@@ -1,11 +1,15 @@
 #pragma once
 
+#include "Component.h"
+
 #include <string>
 
 namespace Aloe
 {
-    struct NameComponent
+    class NameComponent : public Component
     {
+    public:
+
         std::string m_name = "Unamed Entity";
     };
 }

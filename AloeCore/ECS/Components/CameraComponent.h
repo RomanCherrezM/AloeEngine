@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Component.h"
+
 #include <glm/glm.hpp>
 
 #include <Render/Framebuffer.h>
@@ -36,9 +38,10 @@ namespace Aloe
         float m_farPlane = 1000.0f;
     };
 
-    class CameraComponent
+    class CameraComponent : public Component
     {
     public:
+
         CameraComponent();
         CameraComponent(CameraData cameraData);
         ~CameraComponent();

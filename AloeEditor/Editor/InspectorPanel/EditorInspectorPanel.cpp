@@ -41,6 +41,24 @@ namespace Aloe {
     void DrawHierarchyComponent(Entity entity)
     {
         HierarchyComponent& component = entity.GetComponent<HierarchyComponent>();
+
+        if (!component.IsRoot())
+        {
+            Entity parent = component.GetParent();
+            ImGui::Text("Parent: "); ImGui::SameLine();
+            ImGui::Text(parent.GetComponent<NameComponent>().m_name.c_str()); ImGui::SameLine();
+            ImGui::Text(std::to_string(parent.GetComponent<IDComponent>().m_UUID).c_str());
+        }
+
+        ImGui::Text("Children:");
+        ImGui::Indent();
+        for (auto child : component.GetChildren())
+        {
+            ImGui::Text("Child: "); ImGui::SameLine();
+            ImGui::Text(child.GetComponent<NameComponent>().m_name.c_str()); ImGui::SameLine();
+            ImGui::Text(std::to_string(child.GetComponent<IDComponent>().m_UUID).c_str());
+        }
+        ImGui::Unindent();
     }
 
     void DrawTransformComponent(Entity entity)
@@ -315,7 +333,6 @@ namespace Aloe {
         switch (event.GetType())
         {
         case HierarchyEntitySelected:
-            printf("\n Entity Selection: Received");
             m_selectedEntity = reinterpret_cast<HierarchyEntitySelectedEvent*>(&event)->GetEntity();
             break;
         case SceneChanged:

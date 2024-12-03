@@ -117,7 +117,7 @@ namespace Aloe
 
             spriteRenderer.m_shader->SetMat4("m_View", m_renderCamera->GetViewMatrix());
             spriteRenderer.m_shader->SetMat4("m_Projection", m_renderCamera->GetProjectionMatrix());
-            spriteRenderer.m_shader->SetMat4("m_Transform", transform.GetTransform());
+            spriteRenderer.m_shader->SetMat4("m_Transform", transform.m_matrix);
 
             glDrawElements(GL_TRIANGLES, spriteRenderer.m_mesh->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
         }
@@ -158,7 +158,7 @@ namespace Aloe
             if (i.HasComponent<TransformComponent>())
             {
                 TransformComponent& transform = i.GetComponent<TransformComponent>();
-                meshRender.m_shader->SetMat4("m_Transform", transform.GetTransform());
+                meshRender.m_shader->SetMat4("m_Transform", transform.m_matrix);
             }
             else
             {

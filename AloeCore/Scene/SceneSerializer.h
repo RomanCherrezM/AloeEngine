@@ -4,6 +4,9 @@
 
 namespace Aloe {
 
+    // IMPORTANT: In order to not lose scenes when making changes to serialization:
+    // first implement the save function, open all the scenes and save, then implement the load function.
+
     class SceneSerializer
     {
     public:

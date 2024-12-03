@@ -53,7 +53,7 @@ namespace Aloe {
 
         SetDraculaStyle();
 
-        font = io.Fonts->AddFontFromFileTTF("../../deps/imgui/misc/fonts/Roboto-Medium.ttf", 16.0f);
+        font = io.Fonts->AddFontFromFileTTF("../deps/imgui/misc/fonts/Roboto-Medium.ttf", 16.0f);
 
         // Open base panels
         OpenPanel(Hierachy);
@@ -156,7 +156,7 @@ namespace Aloe {
             {
                 if (ImGui::MenuItem("Deserialize", "Ctrl+O"))
                 {
-                     SceneManager::Get().TryLoadScene("../../AloeProject/Assets/Scenes/TestScene.scene");
+                     SceneManager::Get().TryLoadScene("../AloeProject/Assets/Scenes/TestScene.scene");
                 }
 
                 ImGui::Separator();
@@ -165,7 +165,7 @@ namespace Aloe {
                 if (ImGui::MenuItem("Save Scene", "Ctrl+S")) 
                 {
                     SceneSerializer serializer(m_scene);
-                    serializer.Serialize("../../AloeProject/Assets/Scenes/TestScene.scene");
+                    serializer.Serialize("../AloeProject/Assets/Scenes/TestScene.scene");
                 }
                 if (ImGui::MenuItem("Save Scene As...", "Ctrl+Shift+S")) {}
 

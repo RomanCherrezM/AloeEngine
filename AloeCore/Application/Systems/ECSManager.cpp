@@ -14,6 +14,7 @@ namespace Aloe {
     {
         m_scene = std::make_shared<Scene>();
 
+        m_transformSystem = std::make_shared<TransformSystem>();
         m_inputSystem = std::make_shared<InputSystem>();
         m_scriptSystem = std::make_shared<ScriptSystem>();
         m_renderMeshSystem = std::make_shared<RenderMeshSystem>();
@@ -21,6 +22,7 @@ namespace Aloe {
         m_renderCameraSystem = std::make_shared<RenderCameraSystem>();
         m_physics2DSystem = std::make_shared<Physics2DSystem>();
 
+        m_transformSystem->Init();
         m_inputSystem->Init();
         m_scriptSystem->Init();
         m_renderMeshSystem->Init();
@@ -34,6 +36,8 @@ namespace Aloe {
 
     void ECSManager::ExecutePreUpdateSystems()
     {
+        m_transformSystem->Execute();
+
         m_inputSystem->Execute();
 
         m_scriptSystem->Execute();

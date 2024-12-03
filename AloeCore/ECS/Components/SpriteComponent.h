@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Component.h"
+
 #include <Render/Texture.h>
 #include <Render/VertexArray.h>
 #include <Render/Shader.h>
@@ -9,7 +11,7 @@
 
 namespace Aloe
 {
-    struct SpriteComponent
+    class SpriteComponent : public Component
     {
     public:
         SpriteComponent() 

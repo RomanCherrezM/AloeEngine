@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Component.h"
+
 #include <memory>
 
 #include <Render/VertexArray.h>
@@ -7,7 +9,7 @@
 
 namespace Aloe
 {
-    class MeshComponent
+    class MeshComponent : public Component
     {
     public:
         MeshComponent()

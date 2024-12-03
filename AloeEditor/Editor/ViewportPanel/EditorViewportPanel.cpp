@@ -29,6 +29,9 @@ namespace Aloe
     bool EditorViewportPanel::OnPanelUpdate(Entity entity)
     {
         bool open = true;
+
+        static ImVec2 windowSize = ImVec2(720, 480);
+
         if (ImGui::Begin("Viewport", &open))
         {
             m_toolBar.OnPanelUpdate(entity);
@@ -56,6 +59,10 @@ namespace Aloe
 
                 ImGui::SetCursorPos(ImGui::GetCursorPos() + (availableRegion - imageRegion) * 0.5f);
                 ImGui::Image((void*)framebufferID, imageRegion, ImVec2(0, 1), ImVec2(1, 0));
+            }
+            else
+            {
+                // TODO: Print a "No Render Camera" Message
             }
         }
         ImGui::End();

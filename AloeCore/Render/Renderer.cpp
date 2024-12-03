@@ -38,8 +38,8 @@ namespace Aloe {
         // Default Resources
 
         { // Base Sprite Resources
-            std::string spriteVertexPath("../../AloeCore/Render/Shaders/sprite.vert");
-            std::string spriteFragmentPath("../../AloeCore/Render/Shaders/sprite.frag");
+            std::string spriteVertexPath("../AloeCore/Render/Shaders/sprite.vert");
+            std::string spriteFragmentPath("../AloeCore/Render/Shaders/sprite.frag");
 
             m_data->m_spriteDefaultShader = Shader::Create(spriteVertexPath, spriteFragmentPath);
 
@@ -67,8 +67,8 @@ namespace Aloe {
         // Frambuffer Resources
 
         {
-            std::string framebufferVertexPath("../../AloeCore/Render/Shaders/screenFramebuffer.vert");
-            std::string framebufferFragmentPath("../../AloeCore/Render/Shaders/screenFramebuffer.frag");
+            std::string framebufferVertexPath("../AloeCore/Render/Shaders/screenFramebuffer.vert");
+            std::string framebufferFragmentPath("../AloeCore/Render/Shaders/screenFramebuffer.frag");
 
             m_data->m_framebufferShader = Shader::Create(framebufferVertexPath, framebufferFragmentPath);
         }

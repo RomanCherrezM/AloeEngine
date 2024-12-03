@@ -1,11 +1,15 @@
 #pragma once
 
+#include "Component.h"
+
 #include <Core/UUID.h>
 
 namespace Aloe
 {
-    struct IDComponent
+    class IDComponent : public Component
     {
+    public:
+
         UUID m_UUID;
     };
 }

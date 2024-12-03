@@ -1,10 +1,11 @@
 #pragma once
 
+#include <ECS/Components/Component.h>
 #include <Scene/Entity.h>
 
 namespace Aloe
 {
-    class Script
+    class Script : public Component
     {
     public:
 

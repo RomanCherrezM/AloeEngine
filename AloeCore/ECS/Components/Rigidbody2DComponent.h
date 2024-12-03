@@ -1,9 +1,13 @@
 #pragma once
 
+#include "Component.h"
+
 namespace Aloe
 {
-    struct Rigidbody2DComponent
+    class Rigidbody2DComponent : public Component
     {
+    public:
+
         enum class BodyType { Static = 0, Kinematic, Dynamic};
         BodyType m_type = BodyType::Static;
         bool m_fixedRotation;

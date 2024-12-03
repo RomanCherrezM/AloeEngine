@@ -10,7 +10,7 @@ Entities:
     CameraComponent:
       Main Camera: true
       Camera Type: 0
-      Position: [0, 10.1000004, 5.69999981]
+      Position: [0.100000001, 0, 5.0999999]
       Up: [0, 1, 0]
       Front: [0, 0, -1]
       Width: 1920
@@ -22,16 +22,20 @@ Entities:
       Top: 0
       Near Plane: 0.100000001
       Far Plane: 1000
-  - Entity: 7987898749064911529
+  - Entity: 15860740900350251765
     NameComponent:
-      Name: FlappyBird
+      Name: Left
     TransformComponent:
-      Position: [0.400000006, 13, 0]
+      Position: [-2, 0.699999988, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
+    HierarchyComponent:
+      {}
     SpriteComponent:
-      Texture UUID: 0
+      Texture UUID: 14845783147311447386
       Color: [1, 1, 1]
+    InputComponent:
+      {}
     Rigidbody2DComponent:
       Body Type: 2
       Fixed Rotation: false
@@ -40,5 +44,61 @@ Entities:
       Size: [0.5, 0.5]
       Density: 1
       Friction: 0.5
-      Restitution: 1
+      Restitution: 0
       Restitution Threshold: 0.5
+  - Entity: 15667366131032208423
+    NameComponent:
+      Name: Floor
+    TransformComponent:
+      Position: [0, -4.69999981, 0]
+      Rotation: [0, 0, 0]
+      Scale: [19.5, 1, 1]
+    SpriteComponent:
+      Texture UUID: 14845783147311447386
+      Color: [1, 1, 1]
+    Rigidbody2DComponent:
+      Body Type: 0
+      Fixed Rotation: false
+    SquareCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      Restitution Threshold: 0.5
+  - Entity: 8604232621869712730
+    NameComponent:
+      Name: Right
+    TransformComponent:
+      Position: [2, 1, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    HierarchyComponent:
+      Parent: 17944406581463779685
+    SpriteComponent:
+      Texture UUID: 14845783147311447386
+      Color: [1, 1, 1]
+  - Entity: 17944406581463779685
+    NameComponent:
+      Name: Middle
+    TransformComponent:
+      Position: [2, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    HierarchyComponent:
+      Parent: 15860740900350251765
+    SpriteComponent:
+      Texture UUID: 14845783147311447386
+      Color: [1, 1, 1]
+  - Entity: 9196021135753068016
+    NameComponent:
+      Name: Righter
+    TransformComponent:
+      Position: [2, -1, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    HierarchyComponent:
+      Parent: 17944406581463779685
+    SpriteComponent:
+      Texture UUID: 14845783147311447386
+      Color: [1, 1, 1]

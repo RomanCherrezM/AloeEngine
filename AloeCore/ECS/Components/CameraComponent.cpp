@@ -1,5 +1,4 @@
 #include "CameraComponent.h"
-#include "CameraComponent.h"
 
 #include <glm/gtx/transform.hpp>
 
@@ -17,6 +16,7 @@ namespace Aloe
     }
     CameraComponent::~CameraComponent()
     {
+        m_renderTarget = nullptr;
     }
     void CameraComponent::SetType(CameraType type)
     {

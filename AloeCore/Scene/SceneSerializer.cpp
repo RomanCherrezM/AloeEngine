@@ -123,23 +123,10 @@ namespace Aloe {
 
             HierarchyComponent& component = entity.GetComponent<HierarchyComponent>();
             
-            if (component.GetParent())
+            if (!component.IsRoot())
             {
-                const UUID uuid = component.GetParent()->m_entity.GetComponent<IDComponent>().m_UUID;
+                const UUID uuid = component.GetParent().GetComponent<IDComponent>().m_UUID;
                 out << YAML::Key << "Parent" << YAML::Value << uuid;
-            }
-
-            if (component.HasChildren())
-            {
-                out << YAML::Key << "Children" << YAML::Value << YAML::BeginSeq; // Children
-
-                for each (auto child in component.m_childrenComponent)
-                {
-                    const UUID uuid = child->m_entity.GetComponent<IDComponent>().m_UUID;
-                    out << YAML::Key << "Entity" << YAML::Value << uuid;
-                }
-
-                out << YAML::EndSeq; // Children
             }
 
             out << YAML::EndMap; // HierarchyComponent
@@ -272,15 +259,24 @@ namespace Aloe {
         YAML::Node data = YAML::Load(strStream.str());
 
         auto entitiesNode = data["Entities"];
-        
+
         if (entitiesNode) 
         {
-            for each (auto entityNode in entitiesNode)
+            // We first create all the entities before going over components because there are references to the UUIDs
+            for (auto entityNode : entitiesNode)
             {
                 uint64_t uuid = entityNode["Entity"].as<uint64_t>();
 
                 // This adds the ID Component
                 Entity entity = m_scene->CreateEntityByUUID(uuid);
+            }
+
+            for (auto entityNode : entitiesNode)
+            {
+                uint64_t uuid = entityNode["Entity"].as<uint64_t>();
+
+                // Get the entity
+                Entity entity = m_scene->FindEntityByUUID(uuid);
 
                 auto nameComponentNode = entityNode["NameComponent"];
                 if (nameComponentNode)
@@ -298,6 +294,21 @@ namespace Aloe {
                     transformComponent.m_rotation = transformComponentNode["Rotation"].as<glm::vec3>();
                     transformComponent.m_scale = transformComponentNode["Scale"].as<glm::vec3>();
 
+                }
+
+                auto hierarchyComponentNode = entityNode["HierarchyComponent"];
+                if (hierarchyComponentNode)
+                {
+                    HierarchyComponent& hierarchyComponent = entity.AddComponent<HierarchyComponent>();
+
+                    auto parentNode = hierarchyComponentNode["Parent"];
+
+                    if (parentNode)
+                    {
+                        Entity parentEntity = m_scene->FindEntityByUUID(parentNode.as<uint64_t>());
+
+                        parentEntity.AddComponent<HierarchyComponent>().SetupAttachment(entity);        
+                    }
                 }
 
                 auto spriteComponentNode = entityNode["SpriteComponent"];
@@ -365,7 +376,6 @@ namespace Aloe {
                     component.m_restitution = squareCollider2DComponentNode["Restitution"].as<float>();
                     component.m_restitutionThreshold = squareCollider2DComponentNode["Restitution Threshold"].as<float>();
                 }
-
             }
         }
 

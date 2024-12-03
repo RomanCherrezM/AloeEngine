@@ -5,6 +5,8 @@
 
 #include <Application/Systems/ECSManager.h>
 
+#include <Core/Log.h>
+
 namespace Aloe {
 
     Engine::Engine()
@@ -26,9 +28,19 @@ namespace Aloe {
 
     void Engine::Init()
     {
+        Log::Init();
+
         m_appSystems = std::make_unique<ApplicationSystems>();
         
         m_appSystems->InitSystems();
+
+        ALOE_TRACE("Trace test");
+        ALOE_INFO("Info test");
+        ALOE_WARN("Warn test");
+        ALOE_ERROR("Error test");
+        ALOE_CRITICAL("Critical test");
+
+        ALOE_ASSERT(true, "Assert Passed");
     }
 
     void Engine::SetMainCamera(CameraComponent* mainCamera)

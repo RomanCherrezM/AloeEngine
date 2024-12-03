@@ -13,7 +13,7 @@ namespace Aloe
 {
     EditorToolBar::EditorToolBar(EditorEventMessenger* eventRef)
     {
-        std::filesystem::path path = "../../AloeEditor/Assets/Viewport";
+        std::filesystem::path path = "../AloeEditor/Assets/Viewport";
 
         m_eventMessenger = eventRef;
 
@@ -72,6 +72,7 @@ namespace Aloe
                     sceneManager.StopPlaying();
                     // TODO: Move this to somewhere else
                     Engine::Get()->GetApplicationSystems()->GetECSManager()->GetPhysics2DSystem()->OnRuntimeStop();
+                    Engine::Get()->GetApplicationSystems()->GetECSManager()->GetScriptSystem()->StopPlaying();
                     
                 }
                 else
@@ -79,6 +80,7 @@ namespace Aloe
                     sceneManager.StartPlaying();
                     // TODO: Move this to somewhere else
                     Engine::Get()->GetApplicationSystems()->GetECSManager()->GetPhysics2DSystem()->OnRuntimeStart();
+                    Engine::Get()->GetApplicationSystems()->GetECSManager()->GetScriptSystem()->StartPlaying();
                 }
             }
 

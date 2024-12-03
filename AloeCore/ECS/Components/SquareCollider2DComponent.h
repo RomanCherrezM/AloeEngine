@@ -1,11 +1,15 @@
 #pragma once
 
+#include "Component.h"
+
 #include <glm/glm.hpp>
 
 namespace Aloe
 {
-    struct SquareCollider2DComponent
+    class SquareCollider2DComponent : public Component
     {
+    public:
+
         glm::vec2 m_offset = {0.0f, 0.0f};
         glm::vec2 m_size = {0.5f, 0.5f};
 

@@ -2,6 +2,7 @@
 
 #include <Scene/Scene.h>
 
+#include <ECS/Systems/TransformSystem.h>
 #include <ECS/Systems/RenderSystem.h>
 #include <ECS/Systems/InputSystem.h>
 #include <ECS/Systems/ScriptSystem.h>
@@ -36,6 +37,7 @@ namespace Aloe {
         //std::shared_ptr<ECS> m_ecs;
 
         // ECS Systems
+        std::shared_ptr<TransformSystem> m_transformSystem;
         std::shared_ptr<InputSystem> m_inputSystem;
         // TODO: This is not an ECS system as it doesn't have a signature, move this somewhere else
         std::shared_ptr<ScriptSystem> m_scriptSystem; 

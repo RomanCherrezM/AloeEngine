@@ -1,11 +1,15 @@
 #pragma once
 
+#include "Component.h"
+
 #include <Core/Input.h>
 
 namespace Aloe
 {
-    struct InputComponent
+    class InputComponent : public Component
     {
+    public:
+
         std::vector<Input::InputActionBinding> m_actionBindings;
         std::vector<Input::InputAxisBinding> m_axisBindings;
 

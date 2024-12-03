@@ -15,9 +15,9 @@ namespace Aloe {
         void UpdateHierarchy();
 
         void HandleEntityChildren(Entity entity);
-        void HandleOnEntityDragAndDrop(Entity entity);
 
-        void HandleDetachmentLine(Entity entity);
+        void HandleOnEntityDragAndDrop(Entity entity);
+        //void HandleDetachmentLine(Entity entity);
 
         // EditorPanelBase
         virtual void Init() override;

@@ -38,6 +38,8 @@ namespace Aloe
             CopyComponent<CameraComponent>(otherEntity, newEntity);
             CopyComponent<SquareCollider2DComponent>(otherEntity, newEntity);
             CopyComponent<Rigidbody2DComponent>(otherEntity, newEntity);
+
+            // TODO: Copy Scripts
         }
 
         return newScene;
@@ -48,7 +50,7 @@ namespace Aloe
         entt::entity enttEntity = m_registry.create();
         Entity entity = { enttEntity, this };
 
-        entity.AddComponent<IDComponent>(uuid);
+        entity.AddComponent<IDComponent>().m_UUID = uuid;
         entity.AddComponent<TransformComponent>();
         auto& tag = entity.AddComponent<NameComponent>();
         tag.m_name = name.empty() ? "Entity" : name;

@@ -82,13 +82,13 @@ namespace Aloe {
         std::vector<Entity> hierarchyEntities;
 
         // Filter root entities
-        for each (auto entity in SceneManager::Get().GetCurrentScene()->GetAllEntities())
+        for (auto entity : SceneManager::Get().GetCurrentScene()->GetAllEntities())
         {
             if (entity.HasComponent<HierarchyComponent>())
             {
                 HierarchyComponent& hc = entity.GetComponent<HierarchyComponent>();
 
-                if (hc.GetParent() == nullptr)
+                if (!hc.GetParent().IsValid())
                 {
                     hierarchyEntities.push_back(entity);
                 }
@@ -127,36 +127,35 @@ namespace Aloe {
 
     void EditorHierarchyPanel::HandleEntityChildren(Entity entity)
     {
-        HandleDetachmentLine(entity);
+        // TODO: Fix Detachment line
+        //HandleDetachmentLine(entity);
 
         NameComponent& nc = entity.GetComponent<NameComponent>();
-        bool bHierarchy = entity.HasComponent<HierarchyComponent>();
 
-        ImGuiTreeNodeFlags treeNodeFlags =
-            ImGuiTreeNodeFlags_Framed |
-            ImGuiTreeNodeFlags_SpanAvailWidth |
-            ImGuiTreeNodeFlags_AllowItemOverlap |
-            ImGuiTreeNodeFlags_OpenOnDoubleClick |
-            ImGuiTreeNodeFlags_OpenOnArrow |
-            ImGuiTreeNodeFlags_FramePadding;
+        ImGuiTreeNodeFlags treeNodeFlags = 
+            ImGuiTreeNodeFlags_OpenOnArrow | 
+            ImGuiTreeNodeFlags_DefaultOpen | 
+            ImGuiTreeNodeFlags_SpanFullWidth;
 
         if (m_selectedEntity == entity)
         {
             treeNodeFlags |= ImGuiTreeNodeFlags_Selected;
         }
 
-        if (bHierarchy)
+        if (entity.HasComponent<HierarchyComponent>())
         {
             HierarchyComponent& hc = entity.GetComponent<HierarchyComponent>();
-            treeNodeFlags |= hc.HasChildren() ? ImGuiTreeNodeFlags_Leaf : ImGuiTreeNodeFlags_Bullet;
+            if (!hc.HasChildren())
+            {
+                treeNodeFlags |= ImGuiTreeNodeFlags_Leaf;
+            }
         }
         else
         {
-            treeNodeFlags |= ImGuiTreeNodeFlags_Bullet;
+            treeNodeFlags |= ImGuiTreeNodeFlags_Leaf;
         }
 
-        bool open = true;
-        ImGui::CollapsingHeader(nc.m_name.c_str(), &open, treeNodeFlags);
+        bool open = ImGui::TreeNodeEx(nc.m_name.c_str(), treeNodeFlags);
 
         if (ImGui::IsItemClicked())
         {
@@ -170,64 +169,57 @@ namespace Aloe {
             if (entity.HasComponent<HierarchyComponent>())
             {
                 HierarchyComponent& hc = entity.GetComponent<HierarchyComponent>();
-                for (auto itComponent : hc.m_childrenComponent) {
-                    HandleEntityChildren(itComponent->m_entity);
+                for (auto child : hc.GetChildren()) {
+                    HandleEntityChildren(child);
                 }
             }
-        }
-        else
-        {
-            SceneManager::Get().GetCurrentScene()->DestroyEntity(entity);
+
+            ImGui::TreePop();
         }
     }
 
-    void EditorHierarchyPanel::HandleDetachmentLine(Entity entity)
-    {
-        // Line Button
-        ImGui::Dummy(ImVec2(ImGui::GetContentRegionAvail().x, 1));
+    //void EditorHierarchyPanel::HandleDetachmentLine(Entity entity)
+    //{
+    //    // Line Button
+    //    ImGui::Dummy(ImVec2(ImGui::GetContentRegionAvail().x, 1));
 
-        if (ImGui::GetDragDropPayload() != nullptr)
-        {
-            if (ImGui::BeginDragDropTarget())
-            {
-                ImGuiDragDropFlags targetFlags = 0;
+    //    if (ImGui::GetDragDropPayload() != nullptr)
+    //    {
+    //        if (ImGui::BeginDragDropTarget())
+    //        {
+    //            ImGuiDragDropFlags targetFlags = 0;
 
-                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DragChild", targetFlags)) {
-                    Entity childEntity = SceneManager::Get().GetCurrentScene()->FindEntityByUUID(*(const UUID*)payload->Data);
+    //            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DragChild", targetFlags)) {
+    //                Entity childEntity = SceneManager::Get().GetCurrentScene()->FindEntityByUUID(*(const UUID*)payload->Data);
 
-                    if (childEntity)
-                    {
-                        HierarchyComponent& lineHC = entity.GetComponent<HierarchyComponent>();
-                        HierarchyComponent& reattachHC = childEntity.GetComponent<HierarchyComponent>();
+    //                if (childEntity.IsValid())
+    //                {
+    //                    HierarchyComponent& lineHC = entity.GetComponent<HierarchyComponent>();
+    //                    HierarchyComponent& reattachHC = childEntity.GetComponent<HierarchyComponent>();
 
-                        HierarchyComponent* lineParentHC = entity.HasComponent<HierarchyComponent>() ? lineHC.GetParent() : nullptr;
-                        HierarchyComponent* reattachParentHC = childEntity.HasComponent<HierarchyComponent>() ? reattachHC.GetParent() : nullptr;
 
-                        if (lineHC.m_entity != reattachHC.m_entity) {
-                            if (lineParentHC != nullptr)
-                            {
-                                // Attach child Entity to this parent
-                                // Check for infinite loops in the hierarchy.
-                                if (!lineParentHC->IsParentInHierarchy(&reattachHC))
-                                {
-                                    lineParentHC->AddAttachment(&reattachHC);
-                                }
-                            }
-                            else {
+    //                    if (lineHC.GetOwner() != reattachHC.GetOwner()) {
+    //                        if (entity.HasComponent<HierarchyComponent>())
+    //                        {
+    //                            HierarchyComponent& lineParentHC = entity.GetComponent<HierarchyComponent>();
+    //                            lineParentHC.SetupAttachment(childEntity);
+    //                        }
+    //                        else {
 
-                                if (reattachParentHC != nullptr)
-                                {
-                                    reattachParentHC->RemoveAttachment(&reattachHC);
-                                }
-                            }
-                        }
+    //                            if (childEntity.HasComponent<HierarchyComponent>())
+    //                            {
+    //                                HierarchyComponent& reattachParentHC = childEntity.GetComponent<HierarchyComponent>();
+    //                                reattachParentHC.RemoveAttachment(childEntity);
+    //                            }
+    //                        }
+    //                    }
 
-                    }
-                }
-                ImGui::EndDragDropTarget();
-            }
-        }
-    }
+    //                }
+    //            }
+    //            ImGui::EndDragDropTarget();
+    //        }
+    //    }
+    //}
 
     void EditorHierarchyPanel::HandleOnEntityDragAndDrop(Entity entity)
     {
@@ -258,15 +250,9 @@ namespace Aloe {
 
                 if (newChildEntity)
                 {
-                    HierarchyComponent& targetParentHierarchy = entity.GetComponent<HierarchyComponent>();
-                    HierarchyComponent& targetChildHierarchy = newChildEntity.GetComponent<HierarchyComponent>();
+                    HierarchyComponent& targetParentHierarchy = entity.AddComponent<HierarchyComponent>();
 
-                    // Check for infinite loops in the hierarchy.
-                    if (!targetParentHierarchy.IsParentInHierarchy(&targetChildHierarchy))
-                    {
-                        // Add hierarchy bindings
-                        targetParentHierarchy.AddAttachment(&targetChildHierarchy);
-                    }
+                    targetParentHierarchy.SetupAttachment(newChildEntity);
                 }
             }
 

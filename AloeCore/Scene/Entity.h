@@ -21,6 +21,7 @@ namespace Aloe
 		{
 			if (HasComponent<T>()) return GetComponent<T>();
 			T& component = m_scene->m_registry.emplace<T>(m_handler, std::forward<Args>(args)...);
+			component.Initialize(*this);
 			return component;
 		}
 
@@ -28,6 +29,7 @@ namespace Aloe
 		T& ReplaceComponent(Args&&... args)
 		{
 			T& component = m_scene->m_registry.emplace_or_replace<T>(m_handler, std::forward<Args>(args)...);
+			component.Initialize(*this);
 			return component;
 		}
 
