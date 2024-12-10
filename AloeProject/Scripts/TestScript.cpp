@@ -42,7 +42,7 @@ namespace Aloe
     void TestScript::Update(float deltaTime) 
     {  
         velocity = input * deltaTime;
-
+         
         if (HasComponent<TransformComponent>())
         {
             TransformComponent& tr = GetComponent<TransformComponent>();
@@ -58,7 +58,7 @@ namespace Aloe
     {
         input.x = -1.0f;
     }
-    void TestScript::SInput()
+    void TestScript::SInput() 
     {
         input.y = -1.0f;
     }

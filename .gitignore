@@ -27,3 +27,4 @@ __pycache__/
 # Ignore IDE files
 .vscode/
 .idea/
+/AloeProject/Generated

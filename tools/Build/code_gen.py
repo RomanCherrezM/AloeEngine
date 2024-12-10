@@ -1,6 +1,7 @@
 import os
 import re
 import sys
+import shutil
 from pathlib import Path
 
 def process_files(folder_path):
@@ -216,10 +217,10 @@ if __name__ == "__main__":
         print(f"Error: The scripts path '{scripts_path}' is not a valid directory.")
         sys.exit(1)
 
-    if not os.path.isdir(generated_path):
-        print(f"Error: The generated path '{generated_path}' is not a valid directory.")
-        sys.exit(1)
-
+    # Make generated path if it doesnt exist
+    destination = Path(generated_path)
+    destination.mkdir(parents=True, exist_ok=True)
+    
     # Step 1: Gather classes and the files they are defined in
     class_file_map = process_files(scripts_path)
     if not class_file_map:
@@ -243,6 +244,15 @@ if __name__ == "__main__":
     class_names = list(class_file_map.keys())
     init_file_path = os.path.join(generated_path, "Init_generated.cpp")
     generate_init_file(class_names, init_file_path)
+
+    # Step 5: Copy Init.h over
+    script_dir = Path(__file__).parent
+
+    # Construct a local path (e.g., 'templates/Init.h' relative to the script)
+    local_path = script_dir / 'templates' / 'Init.h'
+
+    # Copy the file
+    shutil.copy(local_path, os.path.join(destination, "Init.h"))
 
     print("Code generation complete!")
 
