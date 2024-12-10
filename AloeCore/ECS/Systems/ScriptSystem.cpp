@@ -6,8 +6,10 @@
 #endif
 
 #include <filesystem>
+#include <iostream>
 #include <Core/Script.h>
 #include <Core/AloeEngine.h>
+#include <Core/Log.h>
 
 namespace Aloe
 {
@@ -26,6 +28,9 @@ namespace Aloe
     static HasComponentFn s_hasComponentFn;
     static GetScriptListFn s_getScriptListFn;
     static DrawInterfaceFn s_drawInterfaceFn;
+
+    const std::filesystem::path c_modulePath("AloeProject.dll");
+    const std::filesystem::path c_hotreloadModulePath("AloeProject_Hotreload.dll");
 
     static FARPROC __stdcall TryLoadFunction(HMODULE module, const char* functionName)
     {
@@ -50,15 +55,13 @@ namespace Aloe
 
     void ScriptSystem::Init()
     {
-        printf("\n Scripting Loading . . .");
+        ALOE_INFO("Scripting Loading . . .");
 
-        const std::filesystem::path dllPath = "AloeProject.dll";
-
-        s_module = LoadLibraryA(dllPath.string().c_str());
+        s_module = LoadLibraryA(c_modulePath.string().c_str());
 
         if (!s_module)
         {
-            printf("\n Couldn't Load Scripting DLL Module");
+            ALOE_WARN("Couldn't Load Scripting DLL Module");
             return;
         }
 
@@ -89,6 +92,8 @@ namespace Aloe
                 script->Update(engine->GetDeltaTime());
             }
         }
+
+        // TODO: Check for dll update
     }
 
     void ScriptSystem::StartPlaying()
@@ -134,8 +139,6 @@ namespace Aloe
             if (script)
             {
                 m_scripts.push_back(script);
-
-                script->InternalInitialize(entity);
             }
         }
     }
@@ -157,5 +160,4 @@ namespace Aloe
             s_drawInterfaceFn(scriptName, entity);
         }
     }
-
 }

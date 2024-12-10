@@ -4,27 +4,27 @@
 
 #include <Core/Input.h>
 #include <ECS/Components/Components.h>
-
+ 
 namespace Aloe
 {
     TestScript::TestScript()
     {
         printf("\n TestScript Constructor");
         velocity = { 0.0f, 0.0f, 0.0f };
-        input = { 0.0f, 0.0f, 0.0f };
-    }
-
+        input = { 0.0f, 0.0f, 0.0f }; 
+    } 
+     
     TestScript::~TestScript()
     {
         printf("\n TestScript Destructor");
     }
-
+     
     void TestScript::Start()
     {
         printf("\n TestScript Start");
 
         if (HasComponent<InputComponent>())
-        {
+        { 
             InputComponent& input = GetComponent<InputComponent>();
 
             input.AddActionBinding("W", Input::InputType::Pressed, CreateFunctionBinding(&TestScript::WInput, this));
@@ -36,11 +36,10 @@ namespace Aloe
             input.AddActionBinding("A", Input::InputType::Released, CreateFunctionBinding(&TestScript::ResetA, this));
             input.AddActionBinding("S", Input::InputType::Released, CreateFunctionBinding(&TestScript::ResetS, this));
             input.AddActionBinding("D", Input::InputType::Released, CreateFunctionBinding(&TestScript::ResetD, this));
-
         }
-    }
+    } 
 
-    void TestScript::Update(float deltaTime)
+    void TestScript::Update(float deltaTime) 
     {  
         velocity = input * deltaTime;
 

@@ -111,7 +111,7 @@ project "AloeProject"
 	includedirs
 	{
 		"AloeCore/",
-		"AloeProject/",
+		"AloeProject/Scripts/",
 
         "deps/stb/", 
         "deps/glad/include/", 
@@ -123,13 +123,19 @@ project "AloeProject"
 
     files
     {
-        "AloeProject/**.h",
-        "AloeProject/**.cpp",
+        "AloeProject/Scripts/**.h",
+        "AloeProject/Scripts/**.cpp",
+        "AloeProject/Generated/**.h",
+        "AloeProject/Generated/**.cpp",
     }
+
+    local scriptPath = path.getabsolute(path.join(os.getcwd(), "tools/Build", "code_gen.py"))
+    local generatedPath = path.getabsolute(path.join(os.getcwd(), "AloeProject/Generated"))
+    local scriptsPath = path.getabsolute(path.join(os.getcwd(), "AloeProject/Scripts"))
 
     prebuildcommands
     {
-         "python \"" .. path.getabsolute(path.join(os.getcwd(), "tools/Build", "code_gen.py")) .. "\""
+        "python \"" .. scriptPath .. "\" \"" .. generatedPath .. "\" \"" .. scriptsPath .. "\""
     }
 
     filter "system:linux"

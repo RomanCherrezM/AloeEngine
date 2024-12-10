@@ -6,6 +6,25 @@
 
 namespace Aloe
 {
+    ACLASS()
+    class UwUScript : public Script
+    {
+    public:
+        UwUScript() {}
+        ~UwUScript() {}
+
+        APARAM()
+        int m_interestingValue;
+
+        APARAM()
+        float m_floatValue1;
+
+        APARAM()
+        float m_floatValue2;
+        
+    };
+
+    ACLASS()
     class TestScript : public Script
     {
     public:
@@ -17,8 +36,10 @@ namespace Aloe
 
         void Update(float deltaTime) override;
 
+        APARAM()
         float m_testFloat = 0.0f;
 
+        APARAM()
         int m_testInt = 0;
 
         void WInput();

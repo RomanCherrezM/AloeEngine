@@ -3,6 +3,11 @@
 #include <ECS/Components/Component.h>
 #include <Scene/Entity.h>
 
+// Defines for Code Generation
+
+#define ACLASS() /* Class marker for code generation */
+#define APARAM() /* Param marker for code generation */
+
 namespace Aloe
 {
     class Script : public Component
@@ -14,31 +19,22 @@ namespace Aloe
 
         template<typename T>
         T& GetComponent() {
-            return m_entity.GetComponent<T>();
+            return GetOwner().GetComponent<T>();
         }
 
         template<typename T>
         T& AddComponent() {
-            m_entity.AddComponent<T>(T());
+            GetOwner().AddComponent<T>(T());
         }
 
         template<typename T>
         bool HasComponent() {
-            return m_entity.HasComponent<T>();
-        }
-
-        void InternalInitialize(Entity entity)
-        {
-            m_entity = entity;
+            return GetOwner().HasComponent<T>();
         }
 
     protected:
 
         Script() {};
-
-    private:
-
-        Entity m_entity;
     };
 
 }
